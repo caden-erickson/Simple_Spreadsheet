@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--Skeleton code provided by Daniel Kopta, Travis Martin
+
+    Further implementation by Caden Erickson
+    Last modified: 10/21/22-->
+
+<ContentPage x:Name="CPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:SS="clr-namespace:SS"
+             x:Class="SpreadsheetGUI.MainPage">
+
+    <ContentPage.MenuBarItems>
+
+        <MenuBarItem Text="File">
+
+            <MenuFlyoutItem Text="New"
+                            Clicked="NewClicked"
+                            />
+
+            <MenuFlyoutItem Text="Open"
+                            Clicked="OpenClicked"
+                            />
+
+            <MenuFlyoutItem Text="Save"
+                            Clicked="SaveClicked"
+                            />
+
+            <MenuFlyoutItem Text="Save As"
+                            Clicked="SaveAsClicked"
+                            />
+        </MenuBarItem>
+
+        <MenuBarItem Text="View">
+
+            <MenuFlyoutSubItem Text="Editor Theme">
+
+                <MenuFlyoutItem Text="Light"
+                                Clicked="LightClicked"
+                                />
+
+                <MenuFlyoutItem Text="Dark"
+                                Clicked="DarkClicked"
+                                />
+
+            </MenuFlyoutSubItem>
+
+        </MenuBarItem>
+
+        <MenuBarItem Text="Help">
+
+            <MenuFlyoutItem Text="About Program" 
+                            Clicked="AboutClicked"
+                            />
+
+        </MenuBarItem>
+
+    </ContentPage.MenuBarItems>
+
+    
+    <Grid RowDefinitions="Auto, 80, *">
+
+        <VerticalStackLayout BackgroundColor="{StaticResource HeaderBackgroundColor}">
+
+            <Label x:Name="FileNameDisplay"
+                   HorizontalOptions="Center"
+                   Margin="10, -20, 10, 10"
+                   Text="spreadsheet1.sprd"
+                   TextColor="White"
+                   />
+
+        </VerticalStackLayout>
+
+        <Grid x:Name="Editor"
+              ColumnDefinitions="55, *, Auto, *"
+              ColumnSpacing="20"
+              Grid.Row="1"
+              Padding="20, 20, 20, 20"
+              Style="{StaticResource EditorStyle}">
+
+            <Label x:Name="EditorLabel"
+                   Style="{StaticResource EditorLabelStyle}"
+                   Text="A1"
+                   />
+
+            <Border x:Name="ContentEntryBorder"
+                    Grid.Column="1"
+                    Style="{StaticResource EditorBordersStyle}"
+                    StrokeShape="RoundRectangle 3"
+                    StrokeThickness="1">
+
+                <Grid ColumnDefinitions="*, 40">
+
+                    <Entry x:Name="EditorContents"
+                           ClearButtonVisibility="WhileEditing"
+                           Completed="EditConfirmed"
+                           Focused="EditorFocused"
+                           FontSize="20"
+                           Grid.Column="0"
+                           Style="{StaticResource EditorEntryStyle}"
+                           TextChanged="EditorTextChanged"
+                           VerticalTextAlignment="End"
+                           />
+
+                    <Button x:Name="ConfirmButton"
+                            BackgroundColor="{StaticResource ButtonBackgroundColor}"
+                            Clicked="EditConfirmed"
+                            CornerRadius="1"
+                            FontAttributes="Bold"
+                            Grid.Column="1"
+                            Text="✓"
+                            TextColor="LightGray"
+                            />
+
+                </Grid>
+
+            </Border>
+
+            <Label x:Name="EditorDivider"
+                   FontSize="30"
+                   Grid.Column="2"
+                   Margin="0, 0, 0, 5"
+                   Style="{StaticResource EditorLabelStyle}"
+                   Text="|"
+                   />
+
+            <Border x:Name="ValueBorder"
+                    Grid.Column="3"
+                    Padding="0"
+                    Style="{StaticResource EditorBordersStyle}"
+                    StrokeShape="RoundRectangle 3"
+                    StrokeThickness="1">
+
+                <Label x:Name="EditorValue"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+                       FontSize="20"
+                       Grid.Column="4"
+                       HorizontalTextAlignment="Start"
+                       Padding="10, 0, 0, 0"
+                       Style="{StaticResource EditorLabelStyle}"
+                       Text=""
+                       />
+
+            </Border>
+
+        </Grid>
+
+        <SS:SpreadsheetGrid x:Name="spreadsheetGrid"
+                            Grid.Row="2"
+                            />
+
+    </Grid>
+    
+    
+    <ContentPage.Resources>
+        <!--<Style TargetType="" x:Key="hi">
+            <Setter Property="" Value=""/>
+            <Setter Property="" Value=""/>
+            <Setter Property="" Value=""/>
+            <Setter Property="" Value=""/>
+            <Setter Property="" Value=""/>
+        </Style>-->
+
+        <!-- Light Theme -->
+
+        <Style TargetType="VerticalStackLayout" x:Key="EditorStyle">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource EditorBackgroundColor}, Dark=Black}"/>
+        </Style>
+
+        <Style TargetType="Border" x:Key="EditorBordersStyle">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}"/>
+            <Setter Property="Stroke" Value="{AppThemeBinding Light = {StaticResource Gray600Brush}, Dark={StaticResource WhiteBrush}}"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="EditorLabelStyle">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Light = {StaticResource Gray900}, Dark=White}"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Entry" x:Key="EditorEntryStyle">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=Black}"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=White}"/>
+        </Style>
+    </ContentPage.Resources>
+    
+</ContentPage>
+
